@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dengue | Login</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/themes/lite-purple.min.css">
+
+    <style type="text/css">
+        /*.auth-content{
+            margin-left: 20% !important;
+        }*/
+
+        .auth-layout-wrap .auth-content {
+            width: 320px;
+            margin: auto;
+        }
+
+        .auth-logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .form-control:focus {
+            color: #665c70;
+            background-color: #fff;
+            border-color: #82a632;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(156, 195, 67, 0.55);
+        }
+
+        .btn-primary {
+        color: #fff;
+        background-color: #3d90b9;
+        border-color: #3d90b9;
+    }
+
+        .btn-primary:hover {
+            color: #fff;
+            background-color: #6a8c1d;
+            border-color: #6a8c1d;
+        }
+
+        .color-blue{
+            color: #125591;
+            font-size: 18px;
+        }
+
+        @media (min-width: 1024px){
+
+            .auth-layout-wrap .auth-content {
+                min-width: 320px !important;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-layout-wrap" style="background-image: url(/assets/photo-wide-4.jpg)">
+        <div class="auth-content">
+            <div class="card o-hidden">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="p-4">
+                            <div class="auth-logo text-center mb-4">
+                                <img src="/assets/logo_login.png" alt="">
+                            </div>
+                            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                            <!-- <form> -->
+                                <div class="form-group">
+                                    <label for="email">Username</label>
+                                    <%= f.text_field :username, autocomplete: "Username", class:"form-control" %>
+                                    <!-- <input id="email" class="form-control" type="email"> -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+                                    <!-- <input id="password" class="form-control" type="password"> -->
+                                </div>
+                                <% ensure_captcha_initialized %>
+                                <div class="form-group">
+                                <label for="captcha" class="font-weight-bold text-primary">🧠 CAPTCHA Verification</label>
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light font-weight-bold">
+                                        What is <%= session[:captcha_question] %> ?
+                                    </span>
+                                    </div>
+                                    <%= text_field_tag :captcha, nil, class: "form-control", placeholder: "Enter your answer", required: true, autocomplete: "off" %>
+                                </div>
+                                </div>
+
+
+                                                                
+                                <% if false %>
+                                <% if @show_checkbox_recaptcha %>
+                                    <div style="transform:scale(0.9);transform-origin:0 0">
+                                        <%= recaptcha_tags(site_key: Rails.application.credentials.recaptcha[:site_key_v2]) %>
+                                    </div>
+                                <% else %>
+                                    <%= recaptcha_v3(action: 'login') %>
+                                <% end %>                        
+                                <% end %>        
+                                <button class="btn btn-primary btn-block mt-2" type="submit">Sign In</button>
+
+                            <!-- </form> -->
+                            <% end %>
+                            <div class="row ml-1" style="margin-top: 20px;">
+                                <% flash.each do |type, msg| %>
+                                    <% if type == "notice" %>
+                                        <div class="alert alert-success">
+                                    <% elsif type == "alert" %>
+                                        <div class="alert alert-danger">
+                                    <% else %>
+                                        <div class='alert alert-<%= "#{type}" %>'>
+                                    <% end %>
+                                    <a href="#" class="close" data-dismiss="alert">&#215;</a>
+                                    <%= msg %>
+                                <% end %>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/common-bundle-script.js"></script>
+
+    <script src="/assets/script.js"></script>
+</body>
+
+
+</html>
