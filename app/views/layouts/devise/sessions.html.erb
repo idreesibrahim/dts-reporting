@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DTS</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <%#= stylesheet_link_tag 'application', media: 'all'%>
+    <%= javascript_include_tag 'session'%>
+    <style>
+      .alert-recaptcha_error{
+        color: #6d1224;
+        background-color: #f6d3da;
+        border-color: #f2c1cb;
+      }
+      .alert{
+        width: 95%;
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <%= yield %>
+
+
+  </body>
+</html>
