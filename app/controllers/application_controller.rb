@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
       else
         #patients_path
       end
-      reports_dormancy_report_path
+      reports_dashboard_path
     end
   end
   

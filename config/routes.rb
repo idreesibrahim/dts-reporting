@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   #================================= Reports
   namespace :reports do
-    get "dormancy" => "main#dormancy_report", as: :dormancy
+    get "dashboard" => "main#dashboard", as: :dashboard
   end
   get "up" => "rails/health#show", as: :rails_health_check
+  
 end
