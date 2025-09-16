@@ -1,0 +1,60 @@
+<table id="p_table" class="table table-bordered table-hover listing-tbl">
+		<thead>
+			<tr>
+				<th>Sr No.</th>
+				<th>Activity ID</th>
+				<th>Patient ID</th>
+				<th>Patient Name</th>
+				<th>District</th>
+				<th>Town</th>
+				<th>UC</th>
+				<th>Category Name</th>
+				<th>Tag Name</th>
+				<th>Patient Place</th>
+				<th>Awareness</th>
+				<th>Removal Breeding Spot</th>
+				<th>Elimination Breeding Spot</th>
+				<th>Spray</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Comments</th>
+				<th>Submitted by</th>
+				<th>Activity Submission Date/Time</th>
+				<th>Picture Capture Date/Time</th>
+				<th>Provisional Diagnosis</th>
+    	</tr>                    
+		</thead>
+		<tbody>
+		
+			<% @activities.each_with_index do |activity,i| %>
+				<tr>
+					<td><%= i + 1  %></td>
+					<td><%= activity.id %></td>
+					<td><%= activity.patient_id %></td>
+					<td><%= activity.patient.try(:patient_name) %></td>
+					<td><%= activity.district_name %></td>
+					<td><%= activity.tehsil_name %></td>
+					<td><%= activity.uc_name %></td>
+					<td><%= activity.tag_category_name %></td>
+					<td><%= activity.tag_name %></td>
+					<td><%= activity.patient_place %></td>
+					<td><%= activity.awareness %></td>
+					<td><%= get_yesno activity.removal_bleeding_spot %></td>
+					<td><%= get_yesno activity.elimination_bleeding_spot %></td>
+					<td><%= get_yesno activity.patient_spray %></td>
+					<td><%= activity.latitude %></td>
+					<td><%= activity.longitude %></td>
+					<!-- <td>
+						<%#= render partial: '/application/before_picture', locals: {activity: activity} %>
+					</td> -->
+					<td><%= activity.comment %></td>
+					<td>
+						<%= merge_username_and_name(activity) %>
+					</td>
+					<td><%= activity.created_at.to_datetime.strftime("on %m/%d/%Y at %I:%M%p")  %></td>
+					<td class="text-center"><%= activity.pb_time.try(:strftime, "%m/%d/%Y %I:%M%p") %></td>
+					<td><%= activity.patient.try(:provisional_diagnosis) %></td>
+				</tr>
+			<% end %>	
+		</tbody>
+	</table>

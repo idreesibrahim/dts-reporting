@@ -19,9 +19,19 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
+     <%= stylesheet_link_tag :tabler %>
+      <%= stylesheet_link_tag "tabler.min", media: "all" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="layout-fluid">
+    <div class="page">
+      <%= render "reports/main/shared/header" %>
+      <div class="page-wrapper">
+        <div class="page-body">    
+         
+          <%= yield %>                 
+        </div>     
+      </div>
+    </div>
   </body>
 </html>

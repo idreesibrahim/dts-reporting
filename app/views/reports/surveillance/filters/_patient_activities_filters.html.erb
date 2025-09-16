@@ -1,0 +1,131 @@
+<style>
+  .filter-bar {
+    width: 100%;
+    padding: 1rem;
+    background-color: #fff;
+    z-index: 1030;
+    position: relative;
+  }
+
+  @media (min-width: 992px) {
+    .filter-bar {
+      margin-left: var(--sidebar-width, 250px);
+    }
+  }
+
+  .filter-bar .form-group {
+    margin-bottom: 1rem;
+  }
+
+ 
+  .filter-buttons {
+    gap: 1rem;
+  }
+</style>
+
+
+<!-- Toggle Button -->
+<div class="d-flex justify-content-end mb-2">
+  <p class="btn btn-outline-primary btn-sm" id="flip"><b>Toggle Filters</b></p>
+</div>
+
+<!-- Filter Panel -->
+<div class="filter-bar" id="panel">
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <%= form_for line_list_reports_surveillance_index_path, method: :get do |f| %>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label><b>Patient Id#</b></label>
+              <input type="text" class="form-control" name="patient_id" id="patient_id" value='<%= (params[:patient_id].present?)? "#{params[:patient_id]}" : nil %>'>
+            </div>
+          </div>
+
+           <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Tags</b></label>
+                  <%= select_tag :act_tag, options_for_select(patient_tag_list,{:selected => params[:act_tag]}), {class: 'form-control', :include_blank => "All"} %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Department Name</b></label>
+                <%= select_tag :department, options_for_select(new_departments_list,{:selected => params[:department]}), {class: 'form-control', :include_blank => "All"} %>
+              </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>District</b></label>
+                  <%= select_tag :district_id, options_for_select(all_districts_punjab,{:selected => params[:district_id]}), {class: 'form-control', id: 'patient_district_id', :include_blank => "All"}%>
+                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Tehsil</b></label>
+                <%= select_tag :tehsil_id, options_for_select(tehsil_information(params[:district_id]),{:selected => params[:tehsil_id]}), {class: 'form-control', id: 'patient_tehsil_id', :include_blank => "All"}%>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Uc</b></label>
+               <%= select_tag :uc, options_for_select(ucs_information(params[:tehsil_id]),{:selected => params[:uc]}), {class: 'form-control', id: 'patient_uc_id', :include_blank => "All"}%>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Provisional Diagnosis</b></label>
+                <%= select_tag :provisional_diagnosis, options_for_select(provisional_diagnosis_list,{:selected => params[:provisional_diagnosis]}), {class: 'form-control', :include_blank => "All"} %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Date From</b></label>
+                <input type="datetime-local" class="form-control" name="datefrom" id="datefrom" value='<%= (params[:datefrom].present?)? "#{params[:datefrom]}" : Time.now.beginning_of_day.strftime("%Y-%m-%dT%H:%M") %>' max="<%= max_date_today %>">
+              </div>
+            </div>  
+            <div class="col-md-2">
+              <div class="form-group">
+                <label><b>Date To</b></label>
+                <input type="datetime-local" class="form-control" name="dateto" id="dateto" value='<%= (params[:dateto].present?)? "#{params[:dateto]}" : Time.now.strftime("%Y-%m-%dT%H:%M") %>' max="<%= max_date_today %>">
+              </div>
+            </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label><b>Date From</b></label>
+              <input type="datetime-local" class="form-control" name="dateto" id="dateto" value='<%= (params[:dateto].present?)? "#{params[:dateto]}" : Time.now.strftime("%Y-%m-%dT%H:%M") %>' max="<%= max_date_today %>">
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label><b>Date To</b></label>
+              <input type="datetime-local" class="form-control" name="dateto" id="dateto"
+                value='<%= params[:dateto].presence || Time.now.strftime("%Y-%m-%dT%H:%M") %>'
+                max="<%= max_date_today %>">
+            </div>
+          </div>
+
+          <!-- Buttons Row -->
+          <div class="col-12 d-flex justify-content-center mt-3 filter-buttons flex-wrap">
+            <button class="btn btn-primary px-4" type="submit">Filter</button>
+            <button class="btn btn-secondary px-4" type="button" onclick="resetData()">Reset</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#flip").click(function(){
+      $("#panel").slideToggle("slow");
+    });
+  });
+
+  function resetData(){
+    $("select").val("");
+    $("input[type=text], input[type=date], input[type=datetime-local]").val("");
+  };
+</script>
