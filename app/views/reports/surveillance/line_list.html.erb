@@ -3,8 +3,7 @@
                     <div class="card-header">
                       <div class="row w-full">
                         <div class="col">
-                          <h3 class="card-title mb-0">Employee</h3>
-                          <p class="text-secondary m-0">Table description.</p>
+                          <h3 class="card-title mb-0">Patients Activity List</h3>
                         </div>
                         <div class="col-md-auto col-sm-12">
                           <div class="ms-auto d-flex flex-wrap btn-list">
@@ -21,7 +20,12 @@
                                 <kbd>ctrl + K</kbd>
                               </span>
                             </div>
-                            
+                            <div class="dropdown">
+                              <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown">Download</a>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Excel</a>
+                              </div>
+                            </div>
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
                             Filters
                             </a>
@@ -38,22 +42,70 @@
                             <tr>
                               <th class="w-1"></th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-name">Name</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-name">Sr No.</button>
                               </th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-city">City</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-city">Activity ID</button>
                               </th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-status">Status</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-status">Patient ID</button>
                               </th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-date">Start date</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-date">Patient Name</button>
                               </th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-tags">Tags</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-tags">District</button>
                               </th>
                               <th>
-                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Category</button>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Town</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">UC</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Category Name</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Tag Name</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Patient Place</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Awareness</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Removal Breeding Spot</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Elimination Breeding Spot	</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Spray</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Latitude</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Longitude</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Picture</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Picture Capture Date/Time</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Comments</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Submitted by</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Activity Submission Date/Time</button>
+                              </th>
+                              <th>
+                                <button class="table-sort d-flex justify-content-between" data-sort="sort-category">Provisional Diagnosis</button>
                               </th>
                             </tr>
                           </thead>
