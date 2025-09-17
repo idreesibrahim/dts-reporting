@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   #================================= Reports
   namespace :reports do
     get "dashboard" => "main#dashboard", as: :dashboard
+    resources :surveillance, only: [:index] do
+      collection do
+         get :line_list
+         get :simple_activity
+      end
+    end
   end
   get "up" => "rails/health#show", as: :rails_health_check
   
