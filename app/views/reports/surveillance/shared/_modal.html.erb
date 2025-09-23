@@ -1,4 +1,4 @@
-<div class="modal fade modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+<div data-controller="district-tehsil-uc" class="modal fade modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content rounded bg-surface-backdrop py-6" style="background-color: white !important;">
 
@@ -41,31 +41,37 @@
             </div>
 
             <!-- District -->
+           
             <div class="col-md-3">
               <div class="form-group">
                 <label><b>District</b></label>
                 <%= select_tag :district_id, options_for_select(all_districts_punjab, selected: params[:district_id]),
-                  {class: 'form-control', id: 'patient_district_id', include_blank: "All"} %>
+                  {class: 'form-control', include_blank: "All",
+                  data: { "district-tehsil-uc-target": "district", action: "change->district-tehsil-uc#fetchTehsil" }} %>
               </div>
             </div>
 
             <!-- Tehsil -->
-            <div data-controller="filter-modal" class="col-md-3">
+            <div class="col-md-3">
               <div class="form-group">
                 <label><b>Tehsil</b></label>
-                <%= select_tag :tehsil_id, options_for_select(tehsil_information(params[:district_id]), selected: params[:tehsil_id]),
-                  {class: 'form-control', id: 'patient_tehsil_id', include_blank: "All"} %>
+               <%= select_tag :tehsil_id, options_for_select(tehsil_information(params[:district_id]), selected: params[:tehsil_id]),
+              {class: 'form-control', include_blank: "All",
+              data: { "district-tehsil-uc-target": "tehsil", action: "change->district-tehsil-uc#fetchUc" }} %>
               </div>
             </div>
 
             <!-- UC -->
             <div class="col-md-3">
               <div class="form-group">
-                <label><b>Uc</b></label>
+                <label><b>UC</b></label>
                 <%= select_tag :uc, options_for_select(ucs_information(params[:tehsil_id]), selected: params[:uc]),
-                  {class: 'form-control', id: 'patient_uc_id', include_blank: "All"} %>
+                  {class: 'form-control',
+                  data: { "district-tehsil-uc-target": "uc" }} %>
               </div>
             </div>
+
+
 
             <!-- Provisional Diagnosis -->
             <div class="col-md-3">

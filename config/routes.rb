@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   #nfs_picture_path
   get '/nfs_picture', to: 'ajax#nfs_picture'
+  get 'ajax/populate_tehsil', to: 'ajax#populate_tehsil'
+  get 'ajax/populate_uc', to: 'ajax#populate_uc'
 end
