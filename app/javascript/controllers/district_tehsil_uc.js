@@ -1,11 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class DistrictTehsilUcController extends Controller {
-  static targets = ["district", "tehsil", "uc"]
+  static targets = ["district", "tehsil", "uc", "resetButton"]
 
   connect() {
   console.log("Filter modal controller connected");
-
+  this.resetButtonTarget.addEventListener("click", () => this.resetData())
     // Listen for modal open
     const modal = this.element.closest('.modal')
     if (modal) {
@@ -20,7 +20,14 @@ export default class DistrictTehsilUcController extends Controller {
         })
     }
     }
-
+    resetData() {
+      this.tehsilTarget.value = "";
+      this.tehsilTarget.setAttribute("disabled", "disabled");
+      this.ucTarget.value = "";
+      this.ucTarget.setAttribute("disabled", "disabled");
+      this.districtTarget.value = "";
+      document.querySelectorAll("input[type=text], input[type=date], input[type=datetime-local]").forEach(el => el.value = "");
+    }
   fetchTehsil(event) {
     // if (!this.hasTehsilTarget) return
     const districtId = event.target.value
@@ -67,4 +74,12 @@ export default class DistrictTehsilUcController extends Controller {
         }
       })
   }
+}
+function resetData() {
+  document.querySelectorAll("select").forEach(el => {
+    el.value = "";
+    if (el.id === "tehsil_id" || el.id === "uc") el.setAttribute("disabled", "disabled");
+  });
+
+  document.querySelectorAll("input[type=text], input[type=date], input[type=datetime-local]").forEach(el => el.value = "");
 }
