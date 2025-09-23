@@ -1,0 +1,3 @@
+<% if activity.before_picture.present? %>
+<a href="<%= nfs_picture_path(picture_url: "#{activity.before_picture}") %>" data-toggle="lightbox" data-max-width="600">Before</a>
+<% end %>

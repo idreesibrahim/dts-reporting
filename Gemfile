@@ -32,3 +32,14 @@ gem "devise"        # only for Warden/OmniAuth plumbing in this app (no local DB
 gem "cancancan"
 gem 'idi_captcha', '2.0.0'
 gem "auto_strip_attributes", "~> 2.6"
+gem 'toastr-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem "chartkick"
+gem 'groupdate'
+gem 'rubyXL'
+gem 'will_paginate'
+gem 'audited'
+gem 'acts_as_paranoid'
+gem 'carrierwave'
+

@@ -1,110 +1,119 @@
 <div class="modal fade modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                    <div class="modal-content rounded bg-surface-backdrop py-6"  style="background-color: white !important;">
-                                    
-                                    <!-- Header -->
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">New report</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content rounded bg-surface-backdrop py-6" style="background-color: white !important;">
 
-                                    <!-- Body (1) -->
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" class="form-control" name="example-text-input" placeholder="Your report name">
-                                        </div>
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-                                        <label class="form-label">Report type</label>
-                                        <div class="form-selectgroup-boxes row mb-3">
-                                        <div class="col-lg-6">
-                                            <label class="form-selectgroup-item">
-                                            <input type="radio" name="report-type" value="1" class="form-selectgroup-input" checked>
-                                            <span class="form-selectgroup-label d-flex align-items-center p-3">
-                                                <span class="me-3"><span class="form-selectgroup-check"></span></span>
-                                                <span class="form-selectgroup-label-content">
-                                                <span class="form-selectgroup-title strong mb-1">Simple</span>
-                                                <span class="d-block text-secondary">Provide only basic data needed for the report</span>
-                                                </span>
-                                            </span>
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label class="form-selectgroup-item">
-                                            <input type="radio" name="report-type" value="2" class="form-selectgroup-input">
-                                            <span class="form-selectgroup-label d-flex align-items-center p-3">
-                                                <span class="me-3"><span class="form-selectgroup-check"></span></span>
-                                                <span class="form-selectgroup-label-content">
-                                                <span class="form-selectgroup-title strong mb-1">Advanced</span>
-                                                <span class="d-block text-secondary">Insert charts and additional advanced analyses</span>
-                                                </span>
-                                            </span>
-                                            </label>
-                                        </div>
-                                        </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <%= form_for line_list_reports_surveillance_index_path, method: :get do |f| %>
+          <div class="row">
 
-                                        <div class="row">
-                                        <div class="col-lg-8">
-                                            <div class="mb-3">
-                                            <label class="form-label">Report URL</label>
-                                            <div class="input-group input-group-flat">
-                                                <span class="input-group-text">https://tabler.io/reports/</span>
-                                                <input type="text" class="form-control ps-0" value="report-01" autocomplete="off">
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                            <label class="form-label">Visibility</label>
-                                            <select class="form-select">
-                                                <option value="1" selected>Private</option>
-                                                <option value="2">Public</option>
-                                                <option value="3">Hidden</option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
+            <!-- Patient Id -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Patient Id#</b></label>
+                <input type="text" class="form-control" name="patient_id" id="patient_id"
+                  value='<%= params[:patient_id].presence %>'>
+              </div>
+            </div>
 
-                                    <!-- Body (2) -->
-                                    <div class="modal-body">
-                                        <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                            <label class="form-label">Client name</label>
-                                            <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                            <label class="form-label">Reporting period</label>
-                                            <input type="date" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div>
-                                            <label class="form-label">Additional information</label>
-                                            <textarea class="form-control" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
+            <!-- Tags -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Tags</b></label>
+                <%= select_tag :act_tag, options_for_select(patient_tag_list, selected: params[:act_tag]),
+                  {class: 'form-control', include_blank: "All"} %>
+              </div>
+            </div>
 
-                                    <!-- Footer -->
-                                    <div class="modal-footer">
-                                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
-                                        <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                            class="icon icon-2">
-                                            <path d="M12 5v14"></path>
-                                            <path d="M5 12h14"></path>
-                                        </svg>
-                                        Create new report
-                                        </a>
-                                    </div>
+            <!-- Department -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Department Name</b></label>
+                <%= select_tag :department, options_for_select(new_departments_list, selected: params[:department]),
+                  {class: 'form-control', include_blank: "All"} %>
+              </div>
+            </div>
 
-                                    </div>
-                                </div>
-                            </div>
+            <!-- District -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>District</b></label>
+                <%= select_tag :district_id, options_for_select(all_districts_punjab, selected: params[:district_id]),
+                  {class: 'form-control', id: 'patient_district_id', include_blank: "All"} %>
+              </div>
+            </div>
+
+            <!-- Tehsil -->
+            <div data-controller="filter-modal" class="col-md-3">
+              <div class="form-group">
+                <label><b>Tehsil</b></label>
+                <%= select_tag :tehsil_id, options_for_select(tehsil_information(params[:district_id]), selected: params[:tehsil_id]),
+                  {class: 'form-control', id: 'patient_tehsil_id', include_blank: "All"} %>
+              </div>
+            </div>
+
+            <!-- UC -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Uc</b></label>
+                <%= select_tag :uc, options_for_select(ucs_information(params[:tehsil_id]), selected: params[:uc]),
+                  {class: 'form-control', id: 'patient_uc_id', include_blank: "All"} %>
+              </div>
+            </div>
+
+            <!-- Provisional Diagnosis -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Provisional Diagnosis</b></label>
+                <%= select_tag :provisional_diagnosis, options_for_select(provisional_diagnosis_list, selected: params[:provisional_diagnosis]),
+                  {class: 'form-control', include_blank: "All"} %>
+              </div>
+            </div>
+
+            <!-- Date From -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Date From</b></label>
+                <input type="datetime-local" class="form-control" name="datefrom" id="datefrom"
+                  value='<%= params[:datefrom].presence || Time.now.beginning_of_day.strftime("%Y-%m-%dT%H:%M") %>'
+                  max="<%= max_date_today %>">
+              </div>
+            </div>
+
+            <!-- Date To -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Date To</b></label>
+                <input type="datetime-local" class="form-control" name="dateto" id="dateto"
+                  value='<%= params[:dateto].presence || Time.now.strftime("%Y-%m-%dT%H:%M") %>'
+                  max="<%= max_date_today %>">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Buttons -->
+          <div class="modal-footer mt-3">
+            <button class="btn btn-primary" type="submit">Apply Filters</button>
+            <button class="btn btn-secondary" type="button" onclick="resetData()">Reset</button>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function resetData(){
+    $("select").val("");
+    $("input[type=text], input[type=date], input[type=datetime-local]").val("");
+  };
+</script>
+

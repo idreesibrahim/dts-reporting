@@ -16,5 +16,6 @@ Rails.application.routes.draw do
     end
   end
   get "up" => "rails/health#show", as: :rails_health_check
-  
+  #nfs_picture_path
+  get '/nfs_picture', to: 'ajax#nfs_picture'
 end
