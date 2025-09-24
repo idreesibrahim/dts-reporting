@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
     IdiCaptcha::Captcha.generate(session)
     redirect_to root_url, :alert => exception.message
   end
+  def get_table_from_period
+		params[:period] = 'simple_activities' unless params[:period].present?
+		period = params[:period]
+    
+		begin
+			@activity_table = period.camelize.singularize.constantize
+			@table_name = period.downcase.pluralize
+		end
+	end
 	protected
 
   def after_sign_in_path_for(resource)

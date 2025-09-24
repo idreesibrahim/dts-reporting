@@ -61,4 +61,42 @@ module ApplicationHelper
 			end
 		end
 	end
+    ####Simple Activity############
+	def larvae_types
+		  {"positive"=>0, "negative"=>1, "repeat" => 2}
+	end
+	def parent_departments_list
+		  parent_departments = []
+		  parent_departments = ParentDepartment.accessible_by(current_ability).order("name").collect { | dep | [dep.name, dep.id] }
+		  return parent_departments
+	end
+
+	def periods_info
+		  {
+			"Jan 21 - Dec 21" => "archived21_simple_activities",
+			"Jan 22 - Mar 22" => "simple_activities_y22_m1to3",
+			"Apr 22 - Jun 22" => "simple_activities_y22_m4to6",
+			"July 22 - Sep 22" => "simple_activities_y22_m7to9",
+			"Oct 22 - Dec 22" => "simple_activities_y22_m10to12",
+			"Jan 23 - Mar 23" => "simple_activities_y23_m1to3",
+			"Apr 23 - Jun 23" => "simple_activities_y23_m4to6",
+			"July 23 - Sep 23" => "simple_activities_y23_m7to9",
+			"Oct 23 - Dec 23" => "simple_activities_y23_m10to12",
+			"Jan 24 - Mar 24" => "simple_activities_y24_m1to3",
+			"Apr 24 - Jun 24" => "simple_activities_y24_m4to6",
+			"July 24 - Sep 24" => "simple_activities_y24_m7to9",
+			"Oct 24 - Dec 24" => "simple_activities_y24_m10to12",
+			"Jan 25 - Mar 25" => "simple_activities_y25_m1to3",
+			"Apr 25 - Jun 25" => "simple_activities_y25_m4to6",
+			"July 25 - #{Time.now.strftime("%d %B")} #{Time.now.year}"=>"simple_activities"
+			  }
+	end
+
+	def include_larva_types(type)
+		  SimpleActivity::larva_types.keys.include?(type) ? type : ''
+	end
+	
+	def include_io_action(type)
+		  SimpleActivity::io_actions.keys.include?(type) ? type : ''
+	end
 end

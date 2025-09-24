@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :surveillance, only: [:index] do
       collection do
          get :line_list
-         get :simple_activity
+         get :simple_activity_line_list
       end
     end
   end
@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   get '/nfs_picture', to: 'ajax#nfs_picture'
   get 'ajax/populate_tehsil', to: 'ajax#populate_tehsil'
   get 'ajax/populate_uc', to: 'ajax#populate_uc'
+  get '/ajax/populate_sub_departments', to: 'ajax#populate_sub_departments'
 end

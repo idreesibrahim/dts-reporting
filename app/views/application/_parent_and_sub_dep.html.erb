@@ -1,0 +1,23 @@
+<div class="row" data-controller="parent-department">
+  <!-- Parent Department -->
+  <div class="col-md-3">
+    <div class="form-group">
+      <label><b>Parent Department Name</b></label>
+      <%= select_tag :parent_department,
+        options_for_select(parent_departments_list, selected: params[:parent_department]),
+        { class: "form-control", include_blank: "All",
+          data: { "parent-department-target": "parentDepartment", action: "change->parent-department#fetchSubDepartments" } } %>
+    </div>
+  </div>
+
+  <!-- Sub Department -->
+  <div class="col-md-3">
+    <div class="form-group">
+      <label><b>Sub Department Name</b></label>
+      <%= select_tag :department,
+        options_for_select(new_departments_list, selected: params[:department]),
+        { class: "form-control", include_blank: "All",
+          data: { "parent-department-target": "subDepartment" } } %>
+    </div>
+  </div>
+</div>

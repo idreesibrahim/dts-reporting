@@ -1,0 +1,6 @@
+<div class="col-md-2">
+  <div class="form-group">
+    <label><b>Duration</b></label>
+    <%= select_tag :period, options_for_select(periods_info, {:selected => params[:period] ||='simple_activities'}), {class: 'form-control', required: true}%>
+  </div>
+</div>

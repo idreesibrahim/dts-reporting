@@ -43,4 +43,7 @@ class AjaxController < ApplicationController
       format.json {render :json => @ucs.to_json}
     end
   end
+  def populate_sub_departments
+    render json: new_departments_list
+  end
 end

@@ -1,0 +1,119 @@
+<div class="card">
+  <div class="card-table">
+    <div class="card-header">
+      <div class="row w-full">
+        <div class="col">
+          <h3 class="card-title mb-0">Simple Activities List</h3>
+        </div>
+        <div class="col-md-auto col-sm-12">
+          <div class="ms-auto d-flex flex-wrap btn-list">
+            <div class="dropdown">
+              <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown">Download</a>
+              <div class="dropdown-menu">
+                <%= link_to "Excel", simple_activity_line_list_reports_surveillance_index_path(request.parameters.merge({format: :xls, pagination: "No"})), class: "dropdown-item" %>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#simple_modal">
+              Filters
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="advanced-table">
+      <div class="table-responsive">
+        <table class="table table-vcenter table-selectable">
+          <thead>
+            <tr>
+              <th class="w-1"></th>
+              <th>Sr No.</th>
+              <th>Activity ID</th>
+              <th>District</th>
+              <th>Town</th>
+              <th>UC</th>
+              <th>Sub Department</th>
+              <th>Tag</th>
+              <th>Name/Address</th>
+              <th>Dengue Larvae</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Pictures</th>
+              <th>Time Difference (Sec)</th>
+              <th>Submitted by</th>
+              <th>Activity Date/Time</th>
+              <% if can? :mark_act_bogus, SimpleActivity %>
+                <th>Bogus</th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody class="table-tbody">
+            <% @activities.each_with_index do |activity, i| %>
+              <tr>
+                <td></td>
+                <td><%= i + 1 %></td>
+                <td><%= activity.id %></td>
+                <td><%= activity.district_name %></td>
+                <td><%= activity.tehsil_name %></td>
+                <td><%= activity.uc_name %></td>
+                <td><%= activity.department_name %></td>
+                <td><%= activity.tag_name %></td>
+                <td>
+                  <% if activity.hotspot.present? %>
+                    <%= [activity.hotspot.try(:hotspot_name), activity.hotspot.try(:address)].compact.join(" / ") %>
+                  <% else %>
+                    N/A
+                  <% end %>
+                </td>
+                <td><%= activity.larva_type.try(:titleize) %></td>
+                <td><%= activity.latitude %></td>
+                <td><%= activity.longitude %></td>
+                <td class="text-center">
+                  <% cache(activity.before_picture) do %>
+                    <%= render partial: '/application/before_picture', locals: {activity: activity} %>
+                  <% end %>
+                  <% cache(activity.after_picture) do %>
+                    <%= render partial: '/application/after_picture', locals: {activity: activity} %>
+                  <% end %>
+                </td>
+                <td class="text-center"><%= activity.pdif_time %></td>
+                <td><%= merge_username_and_name(activity) %></td>
+                <td><%= activity.created_at.strftime("on %m/%d/%Y at %I:%M%p") %></td>
+
+                <% if can? :mark_act_bogus, SimpleActivity %>
+                  <% if activity.is_bogus? %>
+                    <td>Marked Bogus</td>
+                  <% else %>
+                    <td>
+                      <button class="btn bogus-btn mb-3" data-disable-with="Marking..." onclick="confirmAction(<%= activity.id %>)">Mark as Bogus</button>
+                    </td>
+                  <% end %>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer d-flex align-items-center">
+        <div class="ms-3"><b>Total Records:</b> <%= @activities.present? ? @activities.total_entries : 0 %></div>
+        <div class="ms-auto">
+          <% if @activities.present? %>
+            <%= will_paginate @activities, class: "pagination m-0 ms-auto" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function confirmAction(id) {
+  if (confirm("Do you want to mark this activity as Bogus?")) {
+    var submitButton = $('.bogus-btn');
+    submitButton.prop('disabled', true);
+    window.location = '/mark_act_bogus?activity_id=' + id + '&page=<%= params[:page] %>&period=<%= params[:period] %>';
+  }
+}
+</script>
+<%= render 'reports/surveillance/shared/simple_modal' %>

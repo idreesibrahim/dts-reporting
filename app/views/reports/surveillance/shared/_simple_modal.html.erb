@@ -1,10 +1,10 @@
-<div data-controller="district-tehsil-uc" class="modal fade modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+<div data-controller="district-tehsil-uc" class="modal fade modal-blur" id="simple_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content rounded bg-surface-backdrop py-6" style="background-color: white !important;">
 
       <!-- Header -->
       <div class="modal-header">
-        <h5 class="modal-title">Filters</h5>
+        <h5 class="modal-title">Simple Activity Filters</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -13,35 +13,32 @@
         <%= form_for line_list_reports_surveillance_index_path, method: :get do |f| %>
           <div class="row">
 
-            <!-- Patient Id -->
-            <div class="col-md-3">
-              <div class="form-group">
-                <label><b>Patient Id#</b></label>
-                <input type="text" class="form-control" name="patient_id" id="patient_id"
-                  value='<%= params[:patient_id].presence %>'>
+            <% if is_bogus_activities? %>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Tags</b></label>
+                  <%= select_tag :tag, options_for_select(non_patient_tag_list,{:selected => params[:act_tag]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
               </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="col-md-3">
-              <div class="form-group">
-                <label><b>Tags</b></label>
-                <%= select_tag :act_tag, options_for_select(patient_tag_list, selected: params[:act_tag]),
-                  {class: 'form-control', include_blank: "All"} %>
+                  
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Larvae Type</b></label>
+                  <%= select_tag :larva_type, options_for_select(larvae_types,{:selected => params[:larva_type]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
               </div>
-            </div>
-
-            <!-- Department -->
-            <div class="col-md-3">
-              <div class="form-group">
-                <label><b>Department Name</b></label>
-                <%= select_tag :department, options_for_select(new_departments_list, selected: params[:department]),
-                  {class: 'form-control', include_blank: "All"} %>
+            <% else %>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Tags</b></label>
+                  <%= select_tag :tag, options_for_select(patient_tag_list,{:selected => params[:tag_id]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
               </div>
-            </div>
+           <% end %>
+           <!-- Parent/Sub Departments -->
+           <%= render partial: 'application/parent_and_sub_dep', locals:{department: :sub_department} %>
 
-            <!-- District -->
-           
+            <!-- District -->          
             <div class="col-md-3">
               <div class="form-group">
                 <label><b>District</b></label>
@@ -70,18 +67,13 @@
                   data: { "district-tehsil-uc-target": "uc" }} %>
               </div>
             </div>
-
-
-
-            <!-- Provisional Diagnosis -->
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="form-group">
-                <label><b>Provisional Diagnosis</b></label>
-                <%= select_tag :provisional_diagnosis, options_for_select(provisional_diagnosis_list, selected: params[:provisional_diagnosis]),
-                  {class: 'form-control', include_blank: "All"} %>
+                  <label>Submitted By</label>
+                  <input class="form-control " type="text" name="submitted_by" id="submitted_by" value='<%= params[:submitted_by] %>' />
               </div>
             </div>
-
+            <%= render '/application/duration' %>
             <!-- Date From -->
             <div class="col-md-3">
               <div class="form-group">
@@ -106,10 +98,11 @@
 
           <!-- Buttons -->
           <div class="modal-footer mt-3">
-            <%= button_tag "Filter Activities", 
-            type: "button",
-            class: "btn btn-primary data_submit", 
-            data: { action: "click->district-tehsil-uc#filterActivities" } %>
+          <%= button_tag "Filter Activities", 
+          type: "button",  # important so it doesn't submit form by default
+          class: "btn btn-primary data_submit", 
+          data: { action: "click->district-tehsil-uc#filterActivities" } %>
+
             <button class="btn btn-secondary" type="button" data-district-tehsil-uc-target="resetButton">Reset</button>
           </div>
         <% end %>
@@ -118,11 +111,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function resetData(){
-    $("select").val("");
-    $("input[type=text], input[type=date], input[type=datetime-local]").val("");
-  };
-</script>
-
