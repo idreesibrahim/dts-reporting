@@ -98,10 +98,7 @@
 
           <!-- Buttons -->
           <div class="modal-footer mt-3">
-          <%= button_tag "Filter Activities", 
-          type: "button",  # important so it doesn't submit form by default
-          class: "btn btn-primary data_submit", 
-          data: { action: "click->district-tehsil-uc#filterActivities" } %>
+            <button class="btn btn-primary" type="submit">Apply Filters</button>
 
             <button class="btn btn-secondary" type="button" data-district-tehsil-uc-target="resetButton">Reset</button>
           </div>

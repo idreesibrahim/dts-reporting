@@ -74,40 +74,4 @@ export default class DistrictTehsilUcController extends Controller {
         }
       })
   }
-  // ✅ migrated from your <script>
-  filterActivities() {
-    const submitBtn = document.querySelector(".data_submit")
-    if (submitBtn) submitBtn.setAttribute("disabled", true)
-
-    const period = document.querySelector("#period")?.value
-    const dateFrom = document.querySelector("#datefrom")?.value
-    const dateTo = document.querySelector("#dateto")?.value
-
-    if (period) {
-      if (dateFrom !== "" && dateTo !== "") {
-        const params = new URLSearchParams({
-          act_tag: document.querySelector("#tag")?.value || "",
-          tehsil_id: document.querySelector("#tehsil")?.value || "",
-          uc: document.querySelector("#uc")?.value || "",
-          district_id: document.querySelector("#district")?.value || "",
-          datefrom: dateFrom,
-          dateto: dateTo,
-          sub_department: document.querySelector(".sub_department")?.value || "",
-          parent_department: document.querySelector("#parent_department")?.value || "",
-          larva_type: document.querySelector("#larva_type")?.value || "",
-          period: period,
-          submitted_by: document.querySelector("#submitted_by")?.value || ""
-        })
-
-        window.location = "?" + params.toString()
-      } else {
-        alert("Please Select Date From and Date To")
-        if (submitBtn) submitBtn.removeAttribute("disabled")
-      }
-    } else {
-      alert("Please Select Duration")
-      if (submitBtn) submitBtn.removeAttribute("disabled")
-    }
-  }
 }
-
