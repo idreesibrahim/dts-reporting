@@ -1,0 +1,110 @@
+<div data-controller="district-tehsil-uc" class="modal fade modal-blur" id="bogus_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content rounded bg-surface-backdrop py-6" style="background-color: white !important;">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Simple Activity Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <%= form_for line_list_reports_surveillance_index_path, method: :get do |f| %>
+          <div class="row">
+
+            <% if is_bogus_activities? %>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Tags</b></label>
+                  <%= select_tag :tag, options_for_select(non_patient_tag_list,{:selected => params[:act_tag]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
+              </div>
+                  
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Larvae Type</b></label>
+                  <%= select_tag :larva_type, options_for_select(larvae_types,{:selected => params[:larva_type]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
+              </div>
+            <% else %>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><b>Tags</b></label>
+                  <%= select_tag :tag, options_for_select(patient_tag_list,{:selected => params[:tag_id]}), {class: 'form-control', :include_blank => "All"} %>
+                </div>
+              </div>
+           <% end %>
+           <!-- Parent/Sub Departments -->
+           <%= render partial: 'application/parent_and_sub_dep', locals:{department: :sub_department} %>
+
+            <!-- District -->          
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>District</b></label>
+                <%= select_tag :district_id, options_for_select(all_districts_punjab, selected: params[:district_id]),
+                  {class: 'form-control', include_blank: "All",
+                  data: { "district-tehsil-uc-target": "district", action: "change->district-tehsil-uc#fetchTehsil" }} %>
+              </div>
+            </div>
+
+            <!-- Tehsil -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Tehsil</b></label>
+               <%= select_tag :tehsil_id, options_for_select(tehsil_information(params[:district_id]), selected: params[:tehsil_id]),
+              {class: 'form-control', include_blank: "All",
+              data: { "district-tehsil-uc-target": "tehsil", action: "change->district-tehsil-uc#fetchUc" }} %>
+              </div>
+            </div>
+
+            <!-- UC -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>UC</b></label>
+                <%= select_tag :uc, options_for_select(ucs_information(params[:tehsil_id]), selected: params[:uc]),
+                  {class: 'form-control',
+                  data: { "district-tehsil-uc-target": "uc" }} %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                  <label>Submitted By</label>
+                  <input class="form-control " type="text" name="submitted_by" id="submitted_by" value='<%= params[:submitted_by] %>' />
+              </div>
+            </div>
+            <%= render '/application/duration' %>
+            <!-- Date From -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Date From</b></label>
+                <input type="datetime-local" class="form-control" name="datefrom" id="datefrom"
+                  value='<%= params[:datefrom].presence || Time.now.beginning_of_day.strftime("%Y-%m-%dT%H:%M") %>'
+                  max="<%= max_date_today %>">
+              </div>
+            </div>
+
+            <!-- Date To -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label><b>Date To</b></label>
+                <input type="datetime-local" class="form-control" name="dateto" id="dateto"
+                  value='<%= params[:dateto].presence || Time.now.strftime("%Y-%m-%dT%H:%M") %>'
+                  max="<%= max_date_today %>">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Buttons -->
+          <div class="modal-footer mt-3">
+            <button class="btn btn-primary" type="submit">Apply Filters</button>
+
+            <button class="btn btn-secondary" type="button" data-district-tehsil-uc-target="resetButton">Reset</button>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>

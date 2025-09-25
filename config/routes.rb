@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       collection do
          get :line_list
          get :simple_activity_line_list
+         get :bogus_activity_line_list
       end
     end
   end
