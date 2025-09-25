@@ -89,6 +89,32 @@ module Reports
       end
     end
 
+    ## Activities duration before and after picture |  pdif_time should be greather than 0
+    def activity_duration
+
+      ## variables initializer
+      @data = []
+      if params[:activity_date].present?
+
+        _q_date = "SA.CREATED_AT::DATE = '#{params[:activity_date]}'"
+        params[:tag_id] = [] if params[:tag_id].present? and params[:tag_id].all? &:blank?
+
+        # _q_TAG_CATEGORY = params[:hotspot_status] == "true" ? "SA.tag_category_id = '#{TagCategory.find_by_category_name('Hotspots').id}'" : true
+        q_tag_id = params[:tag_id].present? ? "SA.tag_id IN(#{params[:tag_id].reject(&:blank?).join(",")})" : true
+        tags_ids = Tag.select(:id).where("tag_name IN(?)", ["Housekeeping", "Patient", "Patient Irs", "Indoor", "Outdoor"]).map(&:id).join(',')
+        except_tags = "SA.tag_id NOT IN(#{tags_ids})"
+        district_id = current_user.district_user? ? "DS.ID = #{current_user.district_id}" : 'true'
+        tehsil_id = current_user.tehsil_user? ? "SA.tehsil_id = #{current_user.tehsil_id}" : 'true'
+
+        @data = SimpleActivity.find_by_sql("SELECT DS.DISTRICT_NAME, SUM(CASE when (SA.pdif_time > 0 AND SA.pdif_time <= 60) then 1 else 0 end) AS less_than_one_minute, SUM(CASE when (SA.pdif_time > 60 AND SA.pdif_time <= 120) then 1 else 0 end) AS one_to_two_minute, SUM(CASE when (SA.pdif_time > 120 AND SA.pdif_time <= 300) then 1 else 0 end) AS two_to_five_minute, SUM(CASE when (SA.pdif_time > 300 AND SA.pdif_time <= 600) then 1 else 0 end) AS five_to_ten_minute, SUM(CASE when (SA.pdif_time > 600 AND SA.pdif_time <= 900) then 1 else 0 end) AS ten_to_fifteen_minute, SUM(CASE when (SA.pdif_time > 900 AND SA.pdif_time <= 1200) then 1 else 0 end) AS fifteen_to_twenty_minute, SUM(CASE when SA.pdif_time > 1200 then 1 else 0 end) AS more_than_twenty_minute FROM simple_activities AS SA INNER JOIN DISTRICTS DS ON DS.ID = SA.DISTRICT_ID AND (SA.pdif_time > 0 and DS.district_name != 'Islamabad' AND #{except_tags}) WHERE #{_q_date} AND #{q_tag_id} AND
+        #{district_id} AND #{tehsil_id} GROUP BY DS.DISTRICT_NAME ORDER BY DS.DISTRICT_NAME")
+      end
+      respond_to do |format|
+        format.html
+        format.xls
+      end
+    end
+
 	end
 
 end

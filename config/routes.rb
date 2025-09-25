@@ -13,6 +13,7 @@ Rails.application.routes.draw do
          get :line_list
          get :simple_activity_line_list
          get :bogus_activity_line_list
+         get :activity_duration
       end
     end
   end
