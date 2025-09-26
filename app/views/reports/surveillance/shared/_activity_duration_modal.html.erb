@@ -1,0 +1,65 @@
+<!-- Filter Modal -->
+<div class="modal fade modal-blur" id="activity_duration_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content rounded bg-surface-backdrop py-6" style="background-color: white !important;">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Activity Duration Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div data-controller="reset-button" class="modal-body">
+        <%= form_for activity_duration_reports_surveillance_index_path, method: :get do |f| %>
+          <div class="row g-3">
+
+            <!-- Date -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-label fw-bold">Date</label>
+                <input type="date" id="from" class="form-control" name="activity_date"
+                       value="<%= params[:activity_date] %>" max="<%= Date.today %>" required>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label fw-bold">Tags</label>
+                <% cache params[:tag_id] do %>
+                  <%= select_tag :tag_id,
+                        option_groups_from_collection_for_select(
+                          TagCategory.select("id, category_name")
+                                     .where("category_name NOT IN(?)", ["Patient", "Housekeeping", "Vector Surveillance"]),
+                          :tags, :category_name, :id, :tag_name,
+                          selected: params[:tag_id]
+                        ),
+                        include_blank: "Please select...",
+                        class: "form-select",
+                        multiple: true,
+                        data: { reset_button_target: "tag" } %>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Footer (Buttons) -->
+          <div class="modal-footer mt-4">
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+            <button type="button" class="btn btn-secondary" data-reset-button-target="resetButton">Reset</button>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function resetData() {
+    $("select").val("").trigger("change");
+    $("input[type=text], input[type=date], textarea").val("");
+  }
+</script>

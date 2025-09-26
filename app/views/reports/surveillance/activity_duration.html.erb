@@ -1,0 +1,92 @@
+<div class="card">
+  <div class="card-table">
+    <div class="card-header">
+      <div class="row w-full">
+        <div class="col">
+          <h3 class="card-title mb-0">Activity Duration Report</h3>
+        </div>
+        <div class="col-md-auto col-sm-12">
+          <div class="ms-auto d-flex flex-wrap btn-list">
+            <div class="dropdown">
+              <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown">Download</a>
+              <div class="dropdown-menu">
+                <%= link_to "Excel", activity_duration_reports_surveillance_index_path(request.parameters.merge({format: :xls})), class: "dropdown-item" %>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activity_duration_modal">
+              Filters
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="advanced-table">
+      <div class="table-responsive">
+        <table class="table table-vcenter table-bordered table-hover">
+          <thead class="sticky-top bg-light">
+            <tr>
+              <th>Sr No </th>
+              <th>District</th>
+              <th>Less Than 1 Minute</th>
+              <th>1-2 Minute</th>
+              <th>2-5 Minute</th>
+              <th>5-10 Minute</th>
+              <th>10-15 Minute</th>
+              <th>15-20 Minute</th>
+              <th>More Than 20 Minute</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @data.each_with_index do |data,i| %>
+              <tr class="text-center">
+                <td><%= i+1 %></td>
+                <td><%= data.district_name %></td>
+                <td class="t1"><%= data.less_than_one_minute %></td>
+                <td class="t2"><%= data.one_to_two_minute %></td>
+                <td class="t3"><%= data.two_to_five_minute %></td>
+                <td class="t4"><%= data.five_to_ten_minute %></td>
+                <td class="t5"><%= data.ten_to_fifteen_minute %></td>
+                <td class="t6"><%= data.fifteen_to_twenty_minute %></td>
+                <td class="t7"><%= data.more_than_twenty_minute %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot class="bg-light fw-bold">
+            <tr>
+              <th colspan="2">Grand Total</th>
+              <th class="t1s">0</th>
+              <th class="t2s">0</th>
+              <th class="t3s">0</th>
+              <th class="t4s">0</th>
+              <th class="t5s">0</th>
+              <th class="t6s">0</th>
+              <th class="t7s">0</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'reports/surveillance/shared/activity_duration_modal' %>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  let totals = [0,0,0,0,0,0,0];
+  document.querySelectorAll(".t1").forEach(el => totals[0] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t2").forEach(el => totals[1] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t3").forEach(el => totals[2] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t4").forEach(el => totals[3] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t5").forEach(el => totals[4] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t6").forEach(el => totals[5] += parseInt(el.innerText) || 0);
+  document.querySelectorAll(".t7").forEach(el => totals[6] += parseInt(el.innerText) || 0);
+
+  document.querySelector(".t1s").innerText = totals[0];
+  document.querySelector(".t2s").innerText = totals[1];
+  document.querySelector(".t3s").innerText = totals[2];
+  document.querySelector(".t4s").innerText = totals[3];
+  document.querySelector(".t5s").innerText = totals[4];
+  document.querySelector(".t6s").innerText = totals[5];
+  document.querySelector(".t7s").innerText = totals[6];
+});
+</script>
